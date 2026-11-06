@@ -4,7 +4,6 @@
 **Type:** Written assignment  
 **Course topic:** Authentication and Cryptography
 
-> Add the instructor's original wording here only if you are allowed to reproduce it publicly. Otherwise, summarize the task in your own words.
 
 ## Questions
 
