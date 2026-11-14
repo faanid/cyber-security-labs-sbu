@@ -14,28 +14,61 @@ This repository separates course assignments from independent practical work:
 
 > **Academic context:** This repository documents participation in a course. It is not a degree, university transcript, or claim of a formal Computer Science qualification. Use the course's exact official title in your CV and profile.
 
-## Repository structure
+## Current repository structure
 
 ```text
 .
+├── README.md
+├── LICENSE
+├── .gitignore
 ├── course/
 │   ├── README.md
-│   ├── syllabus.md
-│   └── certificate/
-├── 01-authentication-and-cryptography/
-│   ├── README.md
-│   ├── homework/
-│   ├── labs/
-│   └── resources.md
-├── 02-network-security/
-├── 03-web-application-security/
-├── 04-vulnerability-assessment/
-├── 05-secure-software-development/
+│   └── syllabus.md
 ├── resources/
-└── LICENSE
+│   └── README.md
+└── 01-authentication-and-cryptography/
+    ├── README.md
+    ├── homework/
+    │   ├── CS-HW1.pdf
+    │   └── homework-01-authentication-cryptography.md
+    ├── labs/
+    │   ├── README.md
+    │   ├── 01-password-salting/
+    │   │   ├── README.md
+    │   │   ├── package.json
+    │   │   ├── src/
+    │   │   └── tests/
+    │   ├── 02-biometric-metrics/
+    │   ├── 03-hash-vs-hmac/
+    │   ├── 04-diffie-hellman-mitm/
+    │   ├── 05-mfa-design/
+    │   └── 06-symmetric-vs-asymmetric/
+    └── resources.md
 ```
 
-Only add topics that were actually covered in the course or that you have independently studied. Mark independent work clearly.
+The folders for Labs 02–06 currently contain planning documents. Their implementations will be added as the work progresses.
+
+## Progress
+
+### Authentication and Cryptography
+
+- [x] Lab 01 — Password Salting and Hashing
+- [ ] Lab 02 — Biometric Metrics
+- [ ] Lab 03 — Hash vs. HMAC
+- [ ] Lab 04 — Diffie–Hellman and MITM
+- [ ] Lab 05 — MFA Design
+- [ ] Lab 06 — Symmetric vs. Asymmetric
+
+### Planned topics
+
+The following topics are possible future areas for study. They are not represented as completed course sections or existing directories:
+
+- Network Security
+- Web Application Security
+- Vulnerability Assessment
+- Secure Software Development
+
+Only add topics that were actually covered in the course or that you have independently studied. Clearly label independent work.
 
 ## Practical lab standard
 
@@ -58,14 +91,6 @@ All practical exercises must be performed in local, intentionally vulnerable, or
 ## Technology
 
 The implementation language may vary by lab. JavaScript/TypeScript and Node.js are useful choices for connecting these topics to software engineering, but use the tool that best demonstrates each concept.
-
-## Progress
-
-- [ ] Authentication and Cryptography
-- [ ] Network Security
-- [ ] Web Application Security
-- [ ] Vulnerability Assessment
-- [ ] Secure Software Development
 
 ## License
 

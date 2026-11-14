@@ -1,8 +1,5 @@
 const { sha256, sha256WithSalt } = require('./hashing');
-const {
-  buildToyLookupTable,
-  lookupUnsaltedHash
-} = require('./rainbow-table');
+const { buildToyLookupTable, lookupHash } = require('./rainbow-table');
 const { hashPassword, verifyPassword } = require('./password-storage');
 
 async function main() {
@@ -24,19 +21,29 @@ async function main() {
   console.log('Salt B hash:', saltedHashB);
   console.log('Hashes match:', saltedHashA === saltedHashB);
 
-  console.log('\n=== 3. Tiny educational lookup table ===');
+  console.log('\n=== 3. Tiny educational lookup tables ===');
   const candidates = ['123456', 'password', 'qwerty', 'letmein'];
-  const lookupTable = buildToyLookupTable(candidates);
-  const knownCandidateHash = sha256('password');
-  const recovered = lookupUnsaltedHash(lookupTable, knownCandidateHash);
-  console.log('Candidate hash found in unsalted table:', recovered);
 
-  const saltedTarget = sha256WithSalt('password', saltA);
+  const unsaltedTable = buildToyLookupTable(candidates);
+  const knownCandidateHash = sha256('password');
   console.log(
-    'Same table finds salted hash:',
-    lookupUnsaltedHash(lookupTable, saltedTarget)
+    'Unsalted table finds candidate:',
+    lookupHash(unsaltedTable, knownCandidateHash)
   );
-  console.log('Note: this is a tiny lookup-table illustration, not a true rainbow table.');
+
+  const saltedTableA = buildToyLookupTable(candidates, saltA);
+  const saltedTableB = buildToyLookupTable(candidates, saltB);
+  const saltedTargetA = sha256WithSalt('password', saltA);
+
+  console.log(
+    'Table built with the same salt finds candidate:',
+    lookupHash(saltedTableA, saltedTargetA)
+  );
+  console.log(
+    'Table built with a different salt finds candidate:',
+    lookupHash(saltedTableB, saltedTargetA)
+  );
+  console.log('Note: these are tiny lookup-table illustrations, not true rainbow tables.');
 
   console.log('\n=== 4. Password storage with scrypt ===');
   const record = await hashPassword(password);

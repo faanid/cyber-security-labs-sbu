@@ -1,27 +1,25 @@
-const { sha256 } = require('./hashing');
+const { sha256, sha256WithSalt } = require('./hashing');
 
-function buildToyLookupTable(candidates) {
+function buildToyLookupTable(candidates, salt = null) {
   const table = new Map();
 
   for (const candidate of candidates) {
-    table.set(sha256(candidate), candidate);
+    const hash =
+      salt === null
+        ? sha256(candidate)
+        : sha256WithSalt(candidate, salt);
+
+    table.set(hash, candidate);
   }
 
   return table;
 }
 
-function lookupUnsaltedHash(table, hash) {
+function lookupHash(table, hash) {
   return table.get(hash) ?? null;
-}
-
-function lookupSaltedHash(table, passwordHash, salt) {
- 
-  const { sha256WithSalt } = require('./hashing');
-  return table.get(passwordHash) ?? null;
 }
 
 module.exports = {
   buildToyLookupTable,
-  lookupUnsaltedHash,
-  lookupSaltedHash
+  lookupHash
 };
