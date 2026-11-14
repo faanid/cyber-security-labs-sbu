@@ -1,34 +1,69 @@
 # Lab 01 — Password Salting and Hashing
 
-**Status:** Planned  
-**Classification:** Independent practical lab  
-**Related homework:** Question 1
+A small Node.js project demonstrating why unsalted password hashes are vulnerable to precomputed lookup attacks, how salts change password hashes, and how to derive password hashes using Node.js `scrypt`.
 
-## Objective
+## Learning objectives
 
-Demonstrate why unique salts make precomputed password-hash tables less reusable, and compare the behavior of unsalted and salted password hashes.
+- Generate and compare SHA-256 hashes.
+- Observe that the same password produces the same unsalted hash.
+- Use different salts to produce different derived values for the same password.
+- Build a deliberately tiny, educational lookup table and observe its limitations.
+- Store and verify passwords using `scrypt`, a password-based key derivation function.
 
-## Planned experiments
+## Requirements
 
-1. Hash the same sample password without a salt.
-2. Hash the same sample password with two different salts.
-3. Compare the resulting hashes.
-4. Use a tiny, locally generated demonstration lookup table to explain precomputation and why a unique salt defeats direct reuse.
-5. Explain why a real password-storage system should use a password-hashing function such as Argon2id or scrypt rather than a fast general-purpose hash such as SHA-256.
+- Node.js 18 or later
+- No third-party dependencies
 
-## Security notes
+## Run
 
-Use fictional sample passwords only. This is an educational demonstration, not a password-cracking tool. Do not use real credentials or publish recovered passwords.
+```bash
+npm start
+```
 
-## Implementation
+Run the automated tests:
 
-_To be added._
+```bash
+npm test
+```
 
-## Results and analysis
+## Project structure
 
-_To be added._
+```text
+src/
+├── hashing.js
+├── index.js
+├── password-storage.js
+└── rainbow-table.js
+tests/
+└── password-storage.test.js
+```
+
+## What the demonstration shows
+
+1. **Unsalted SHA-256:** identical input produces an identical digest. This makes equal passwords recognizable and allows an attacker to reuse precomputed password-to-hash mappings.
+2. **Salted SHA-256 demonstration:** adding a different salt changes the digest, so a lookup table built for one salt does not directly match hashes made with another salt.
+3. **Toy lookup table:** this is a tiny dictionary of precomputed SHA-256 values, not a real-world rainbow table. It illustrates the lookup idea only.
+4. **Password storage with scrypt:** each password gets a cryptographically random salt. The salt and derived key are stored; verification derives a new key and compares it using a timing-safe comparison.
+
+## Important security notes
+
+- **Do not use plain SHA-256 to store passwords.** SHA-256 is designed to be fast. Fast general-purpose hashes make large-scale password guessing cheaper.
+- **A salt is not a password-hashing algorithm.** It prevents identical passwords from sharing the same stored hash and makes precomputed tables less reusable, but it does not make a fast hash suitable for password storage.
+- **Use a password-hashing function** such as Argon2id, scrypt, or PBKDF2 with appropriate parameters. This lab uses Node.js built-in `scrypt` to avoid external dependencies.
+- Salts are not secret. They should be unique and generated with a cryptographically secure random number generator.
+- This is an educational example, not a complete production authentication system. Production systems also need rate limiting, secure session handling, password reset protections, transport security, and operational controls.
+- The toy lookup table is intentionally small and must never be used as a security tool.
+
+## Suggested experiments
+
+- Change the sample password and observe the output.
+- Run the program multiple times. The scrypt salt and derived key should change because a new random salt is generated.
+- Store the same password twice and compare the records.
+- Verify the correct password, then try an incorrect one.
+- Change the toy candidate list and see whether the lookup table finds the sample hash.
 
 ## References
 
+- [Node.js Crypto API](https://nodejs.org/api/crypto.html)
 - [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
-- [Node.js Crypto documentation](https://nodejs.org/api/crypto.html)

@@ -1,0 +1,14 @@
+{
+  "name": "lab-01-password-salting-and-hashing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Educational demonstration of password hashing, salting, lookup tables, and scrypt in Node.js.",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
